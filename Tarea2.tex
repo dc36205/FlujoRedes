@@ -1,0 +1,276 @@
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{listings}
+ \usepackage[T1]{fontenc}
+ \usepackage{subcaption}
+\usepackage{float}
+\usepackage{color}
+\usepackage{natbib}
+\usepackage{xcolor}
+
+\usepackage {hyperref}
+ \hypersetup{breaklinks=true,colorlinks=true,
+        linkcolor=black,citecolor=black,urlcolor=black}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{gray97}{gray}{.97}
+\definecolor{gray75}{gray}{.75}
+\definecolor{gray45}{gray}{.45}
+
+\lstset{
+%frame=tb,
+ language=Python,
+ backgroundcolor=\color{gray97},
+ captionpos=b,
+ keepspaces=true, 
+ numbers=left,
+ numbersep=5pt, 
+  firstnumber=1, 
+  stepnumber=1, 
+  showstringspaces=false,
+  tabsize=1,
+% numberstyle=\small\color{migris}
+ stringstyle=\color{mimalva}, 
+ commentstyle=\color{miverde},
+ stepnumber=1,  
+ frame=single,
+  escapeinside={\%*}{*)},  
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  %numbers=none,%esto estaba evitando que saliera la columna con los numeros en la parte del código en el documento
+  %numberstyle=\tiny\color{gray},
+  numberstyle=\footnotesize,
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=3
+}
+
+\begin{document}
+\title{Tarea 2 Optimización de Flujo de Redes}
+\author{1985274}
+\date{\today}
+\maketitle 
+
+\maketitle
+
+En este trabajo se mostrarán varios tipos de grafos con ejemplos empleando distintos algorítmos de acomodamiento. Para esto se ha utilizado el lenguaje \textbf{Python} en su versión 3.7 \cite{python},  el editor de código Spyder en su versión 3.3.1 y el editor Texmaker 5.0.2 para redactar el documento. Además, se han empleado las librerías \textbf{networkX} 1.5  \cite{networkx} y \textbf{Matplotlib}  \cite{matplotlib}, para dibujar los grafos mostrados. 
+
+\section{Grafo simple no dirigido acíclico}  
+
+Este grafo se asemeja a la situación del recorrido de la Línea dos del metro de Monterrey, México que conecta varias estaciones de la ciudad. El metro comienza su recorrido en la estación de Sendero y finaliza en la estación de General Zaragoza. En ejemplo de la figura 1 cada estación es considerada como un nodo y están enlazadas por aristas que no tienen dirección y todas las estaciones están conectadas. Basado en el plano del libro Plan Sectorial de Transporte y Vialidad del Área Metropolitana de Monterrey 2008--2030 de la página 100 \cite{agenciadetransporte}. 
+
+En el ejemplo de la figura 1 se utilizó el algoritmo de acomodamiento spring layout para representar los nodos y arcos del ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G, pos, dim, k, iterations y el parámetro fixed. Los nodos verdes indican el nodo inicial y final del recorrido del metro \cite{ejemnetworkx1} . 
+
+\subsection{Código}
+
+\lstinputlisting[language=Python, firstline=11, lastline=30]{GSNDA.py}
+
+\begin{figure}[H] 
+    \centering
+              \includegraphics[width=\textwidth]{images/GSNDA.eps}
+\caption{Grafo simple no dirigido acíclico}
+\label{fig:seq1}
+\end{figure}
+
+\section{Grafo simple no dirigido cíclico}
+
+Este grafo se asemeja a la estructura del grafito. El grafito es un tipo de material que presenta una estructura laminar conocida como grafeno. Éste está compuesto por átomos de carbono formando una red hexagonal plana, la cual está formada por seis átomos enlazados formando un anillo. En este tipo de estructura cada átomo está representado en la figura  2 como un nodo del grafo y las aristas representan los enlaces entre los átomos. Basado en la figura uno de la tesis Modificación superficial de materiales de carbono: grafito y grafeno de la página 6 \cite{pablosolisfernandez}. 
+
+En el ejemplo de la figura 2 se utilizó el algoritmo de acomodamiento circular layout para representar el ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G, scale, center y dim. Este algoritmo devuelve una lista de las posiciones por cada nodo\cite{circularlayout}.   
+
+\subsection{Código}
+
+\lstinputlisting[language=Python, firstline=8, lastline=26]{GSNDC.py}
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=\textwidth]{images/GSNDC.eps}
+\caption{Grafo simple no dirigido cíclico}
+\label{fig:seq1}
+\end{figure}
+
+\section{Grafo simple no dirigido reflexivo}
+
+Este grafo se asemeja a la situación en la que se tiene un conjunto de inspectores de rutas de transporte interurbanas, donde los nodos que son las paradas, son los puntos de embarques de las personas.  Las aristas que unen a los nodos son las autopistas y carreteras que unen las paradas. Este grafo es no dirigido porque por esas rutas (las autopistas, carreteras), los camiones pueden pasar en dos direcciones. Los inspectores tienen que inspeccionar determinadas rutas críticas. Las aristas tienen un peso o ponderación de cero si no es crítica y uno si es crítica.
+
+Los inspectores comen en determinada hora y esta actividad se puede representar en el grafo una arista al mismo nodo y esa arista indica que ese es un nodo de comida. 
+
+En el ejemplo de la figura 3 el nodo reflexivo está marcado de color rojo. En esa figura una parada sería el nodo \textbf{a}, otra parada sería el nodo \textbf{b}, que como es reflexivo sería un nodo de comida, es decir una parada donde los inspectores pueden comer. 
+
+Un bucle es una arista reflexiva, donde coinciden el vértice de origen y el vértice destino, si un grafo cuenta con al menos un nodo con esta característica se dice que es un grafo reflexivo \cite[pág 6]{schaeffere}. 
+
+Para visualizar este grafo se utilizó el algoritmo de acomodamiento spring layout representado en la figura 3.  
+
+
+\subsection{Código}
+
+\lstinputlisting[language=Python, firstline=8, lastline=35]{GSNDR.py}
+
+\begin{figure}[H] 
+    \centering
+        \includegraphics[width=\textwidth]{images/GNDirigidoReflexivo.eps}
+\caption{Grafo simple no dirigido reflexivo}
+\label{fig:seq1}
+\end{figure}
+
+\section{Grafo simple dirigido acíclico}
+
+Un ejemplo de este grafo es el flujograma del proceso de fabricación del asfalto, que incluye la dosificación, mezcla y carga en una planta de asfalto. En este grafo cada actividad es un nodo. El flujograma tiene una actividad donde comienza el proceso y donde finaliza el proceso y cada actividad tiene un orden específico, lo cual determina que se pueda representar como un grafo simple y dirigido. Las aristas representan el cambio de una actividad a la otra.  
+
+En el grafo que se ilustra en la figura 4 el nodo \textbf{Inicio}, representa el inicio del proceso con la fabricación de cemento,  el nodo dos representa el \textbf{proceso 1} que se refiere a la elevación de los materiales pétreos a la criba, el nodo tres representa el \textbf{proceso 2} que se refiere a la Separación y almacenaje en tolvas de los elementos en caliente, el nodo cuatro representa el \textbf{proceso 3} que se refiere al Pesaje del asfalto y materiales pétreos, el nodo cinco representa el \textbf{proceso 4} que se refiere a la mezcla, el nodo seis representa el \textbf{proceso 5} que se refiere al Transporte de mezcla y almacenaje en tolvas de carga, el nodo siete representa el fin del Proceso de fabricación  \cite[pág 78]{alfonsolopez}.
+
+En el ejemplo de la figura 4 se utilizó el algoritmo de acomodamiento kamada kawai layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G, que es el grafo, dist, pos weight, scale, center y dim. 
+
+
+\subsection{Código}
+
+\lstinputlisting[language=Python,firstline=8, lastline=29]{GSDA.py}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/GrafoSimpleDAcicNew.eps}
+\caption{Grafo simple dirigido acíclico}
+\end{figure}
+
+\section{Grafo simple dirigido cíclico}
+
+Un ejemplo de este grafo es el flujo de actividades por las que transita el instrumental quirúrgico a esterilizar que es utilizado en un hospital. En la figura 5 cada actividad puede ser representada por un nodo y al estar todas conectadas se forma un grafo, que siempre sigue un orden, por esto es un grafo dirigido. El instrumental puede ser esterilizado muchas veces, por lo que se considera un grafo cíclico. El flujo se inicia cuando el instrumental es recolectado del salón de operación y esta actividad está representada por el nodo a\textbf{nodo a}. A continuación, se pasa a la Descontaminación, que es el nodo b \textbf{nodo b}, después se pasa a la Desinfección, que corresponde al nodo c \textbf{nodo c}. Le sigue la actividad de Limpieza (nodo d)\textbf{nodo d}, luego se pasa al Enjuague (nodo e)\textbf{nodo e}, luego se pasa al Secado (nodo f)\textbf{nodo f}, luego el material pasa a la actividad de Inspección y empaquetamiento del material(nodo g)\textbf{nodo g} y seguidamente se efectúa el  Control de calidad(nodo h)\textbf{nodo h}. El siguiente nodo representa el material quirúrgico in situ empleado por el cirujano. Basado en el libro Manual de esterilización para centros de salud \cite{silviacosta}. 
+
+En el ejemplo de la figura 5 se utilizó el algoritmo de acomodamiento rescale layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, se encuentran: el parámetro pos y scale. 
+
+\subsection{Código}
+
+\lstinputlisting[language=Python,firstline=8, lastline=38]{GSDC.py}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width= \textwidth]{images/GDirigidoCiclicoLayout.eps}
+\caption{Grafo simple dirigido  cíclico}
+\end{figure}
+
+\section{Grafo simple dirigido reflexivo}
+
+Un ejemplo de este tipo de grafo está representado en el diagrama de Entidad-Relación en la construcción de una base de datos. En la figura 6, cada nodo representa una tabla de la base de datos, y las aristas simbolizan la relación con otras tablas. En este tipo de diagramas se pueden establecer relaciones binarias, reflexivas y ternarias entre las tablas de la base de datos \cite{departamento}. 
+
+En el ejemplo de la figura 6 se utilizó el algoritmo de acomodamiento bipartite layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentra: el parámetro G (grafo a visualizar), el parámetro nodes, align (para alinear los nodos), center y aspect ratio.
+
+\subsection{Código}
+\lstinputlisting[language=Python,firstline=9, lastline=25]{GSDR.py}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/Prueba_Layout_2.eps}
+\caption{Grafo simple dirigido reflexivo}
+\end{figure}
+
+\section{Multigrafo no dirigido acíclico}
+
+Un ejemplo aplicado de este tipo de multigrafo está basado en la representación del diagrama de rutas entre ciudades donde cada ciudad está representada como un nodo y cada arista es una vía para  llegar a esa ciudad con una ponderación, por ejemplo por vía aérea, por vía terrestre. La ponderación es el tiempo que se demora en llegar de una ciudad a otra, o de un nodo al otro. En la figura 7 cada nodo representa a una ciudad, que puede ser el origen del viaje hacia otro nodo pasando por varias otras ciudades o nodos. Los arcos son las vías que existen para llegar, representados en la figura de color verde y negro. 
+
+
+En el ejemplo de la figura 7 se utilizó el algoritmo de acomodamiento Spectral layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G(es el grafo a visualizar) y el parámetro weight(con este parámetro se controla el ancho de los arcos).
+
+\subsection{Código}
+
+\lstinputlisting[language=Python,firstline=8,lastline=33]{MNDA.py}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/MNDAciclicoTipoLayout.eps}
+\caption{Multigrafo no dirigido acíclico}
+\end{figure}
+
+\section{Multigrafo no dirigido cíclico}
+
+Un ejemplo aplicado de este tipo de multigrafo se asemeja a la situación del diagrama de relación de usuarios de redes sociales como Facebook. En la figura 8 se muestra un ejemplo donde los individuos están representadas por los nodos y los arcos representan las relaciones entre los individuos. En este tipo de multigrafos los nodos pueden ser además de los individuos, organizaciones, grupos sociales, usuarios de un servicio de salud, miembros de una comunidad. Los arcos representan las relaciones sociales como links o bonds. Estas relaciones entre individuos se refieren relaciones de amistad, de pareja, y trabajo entre otras. Basado en la figura 4.0 del libro Redes sociales y análisis de redes de la página 105 \cite{josehernando}. 
+
+En el ejemplo de la figura 8 se utilizó el algoritmo de acomodamiento  fruchterman reingold layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G(es el grafo a visualizar), el parámetro dim, k(distancia óptima entre nodos),pos, fixed, iterations y weight(con este parámetro se controla el ancho de los arcos).
+
+\subsection{Código}
+\lstinputlisting[language=Python,firstline=8, lastline=35]{MNDC.py}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth]{images/MNDCiclicoTipo2.eps}
+\caption{Multigrafo no dirigido cíclico}
+\end{figure}
+
+\section{Multigrafo no dirigido reflexivo}
+
+Un ejemplo aplicado de este tipo de multigrafo se asemeja al organigrama de competencias de un torneo de ajedrez, donde cada nodo representa a una escuela (nodos de color rojo). Primero se efectúan las competencias locales entre los concursantes de una misma escuela (representado en el grafo como un nodo reflexivo), luego se realizan competencias entre escuelas. En este ejemplo de la figura 9 cada nodo representa a una escuela y los arcos reflejan las competencias efectuadas. Los nodos azules son las escuelas que pasan a la segunda etapa de competencias. El nodo representa a las competencias entre las escuelas ganadoras \cite{ahuja}.
+
+En el ejemplo de la figura 9 se utilizó el algoritmo de acomodamiento circular layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G (grafo a visualizar), scale, center y dim.
+
+\subsection{Código}
+\lstinputlisting[language=Python,firstline=8, lastline=36]{MNDR.py}
+
+\begin{figure}[H] 
+\centering
+\includegraphics[width=\textwidth]{images/MNDirigidoREflexivo.eps}
+\caption{Multigrafo no dirigido reflexivo}
+\end{figure}
+
+\section{Multigrafo dirigido acíclico}
+
+Un ejemplo aplicado de este tipo de multigrafo es el diagrama de opciones de aerolíneas que tiene un viajero para ir de una ciudad a la otra, por ejemplo, para ir de la Ciudad de la Habana a la ciudad de Miami, el viajero tiene varias opciones como la aerolínea American Airlines, Interjet, Aeroméxico y Copa Airlines entre otras. En la figura diez cada ciudad se representa como un nodo, por lo que existe una ciudad origen y otra ciudad destino y los arcos o aristas son las distintas opciones de aerolíneas que el viajero tiene para seleccionar y de manera similar para cada destino, estos se encuentran en la figura 10 de color verde y negro.
+
+En el ejemplo de la figura 10 se utilizó el algoritmo de acomodamiento random layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G (el grafo a visualizar), dim (dimensión del layout) y seed (semilla para generar el layout de los nodos).
+
+\subsection{Código}
+\lstinputlisting[language=Python,firstline=8, lastline=35]{MDA.py}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/MDirigidoAciclico.eps}
+\caption{Multigrafo dirigido acíclico}
+\end{figure}
+
+\section{Multigrafo dirigido cíclico}
+
+Un ejemplo aplicado de este tipo de multigrafo es la representación de las opciones que tiene un viajero que se dispone a realizar un viaje en redondo, partiendo de la ciudad donde vive y regresando al final del viaje a la ciudad de donde partió, la ciudad origen. Cada país o ciudad visitada está representada como un nodo y las aristas representan la transición de un país o ciudad a la otra ciudad o país. El viajero tiene varias opciones para realizar su viaje en redondo, a partir de las distintas opciones que le brindan las agencias de viaje. En la figura 11 cada nodo es una ciudad o país, y las aristas varias opciones para llegar de un nodo al otro.
+
+En el ejemplo de la figura 11 se utilizó el algoritmo de acomodamiento spring layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G (representa el grafo a visualizar), parámetro k (distancia optimal entre los nodos), pos(posición inicial para los nodos) y el parámetro iterations (número máximo de iteraciones).
+
+\subsection{Código}
+\lstinputlisting[language=Python,firstline=8, lastline=37]{MDC.py}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/MDirigidoCiclico.eps}
+\caption{Multigrafo dirigido cíclico}
+\end{figure}
+
+\section{Multigrafo dirigido reflexivo}
+
+Un ejemplo aplicado de este tipo de multigrafo es el diseño de la red de transporte urbano por la que van a transitar luego los camiones o vehículos de distribución. Los nodos son las ciudades, los puntos más importantes por los que pasan los vehículos de distribución y en ocasiones existe más de un camino para llegar al lugar y cada camino es una arista, que tiene varios atributos por ejemplo el tiempo de recorrido. Pueden existir varias aristas entre los nodos, lo que da lugar a un multigrafo.  
+
+Lo mismo ocurre con el diseño de rutas en el transporte urbano. En el ejemplo de la figura 12 los nodos son puntos de carga y descarga de pasajeros y se puede llegar por diferentes vías de la ciudad, hay calles principales y hay que determinar cuál es el más adecuado. Este tipo de multigrafo es reflexivo, porque en este tipo de diseño se toma un tiempo ajustar el itinerario de los vehículos y estos tienen que hacer un tiempo en las paradas, por lo que ese tiempo es un lazo al mismo nodo, convirtiendo al multigrafo, en multigrafo reflexivo. 
+
+En el ejemplo de la figura 12 se utilizó el algoritmo de acomodamiento circular layout para representar los nodos y arcos acorde al ejemplo aplicado. Este algoritmo tiene varios parámetros que lo caracterizan, entre los que se encuentran: el parámetro G (representa el grafo a visualizar), parámetro scale, center y dim (determina la dimensión del layout).
+
+\subsection{Código}
+
+\lstinputlisting[language=Python,firstline=8, lastline=37]{MDirigidoRefexivo.py}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{images/MDirigidoRefexivo.eps}
+\caption{Multigrafo dirigido reflexivo}
+\end{figure}
+
+\bibliography{ref}
+\bibliographystyle{plain}
+
+\end{document}
